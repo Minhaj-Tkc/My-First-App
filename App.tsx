@@ -17,6 +17,10 @@ const App = () => {
           name="Tab" 
           component={TabNavigator} 
           options={{animation: 'slide_from_bottom'}}></Stack.Screen>
+        <Stack.Screen
+          name="Details"
+          component={DetailsScreen}
+          options={{animation: 'slide_from_bottom'}}></Stack.Screen>
         <Stack.Screen 
           name="Payment" 
           component={PaymentScreen} 
