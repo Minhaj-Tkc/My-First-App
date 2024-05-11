@@ -91,7 +91,7 @@ const CartScreen = ({navigation, route}: any) => {
             <PaymentFooter
               buttonPressHandler={buttonPressHandler}
               buttonTitle="Pay"
-              price={{price: CartPrice, currency: '$'}}
+              price={{price: CartPrice, currency: '₹'}}
             />
           ) : (
             <></>

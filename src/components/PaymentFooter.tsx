@@ -24,11 +24,14 @@ const PaymentFooter: React.FC<PaymentFooterProps> = ({
   buttonPressHandler,
   buttonTitle,
 }) => {
+
+  const priceFontSize = price.price.length > 6 ? FONTSIZE.size_18 : FONTSIZE.size_22;
+
   return (
     <View style={styles.PriceFooter}>
       <View style={styles.PriceContainer}>
         <Text style={styles.PriceTitle}>Price</Text>
-        <Text style={styles.PriceText}>
+        <Text style={[styles.PriceText, { fontSize: priceFontSize }]}>
           {price.currency} <Text style={styles.Price}>{price.price}</Text>
         </Text>
       </View>
@@ -60,7 +63,6 @@ const styles = StyleSheet.create({
   },
   PriceText: {
     fontFamily: FONTFAMILY.poppins_semibold,
-    fontSize: FONTSIZE.size_24,
     color: COLORS.primaryOrangeHex,
   },
   Price: {

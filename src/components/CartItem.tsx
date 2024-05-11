@@ -261,6 +261,7 @@ const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_semibold,
     fontSize: FONTSIZE.size_18,
     color: COLORS.primaryOrangeHex,
+    paddingLeft: 6,
   },
   SizePrice: {
     color: COLORS.primaryWhiteHex,

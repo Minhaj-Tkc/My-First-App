@@ -42,7 +42,7 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
         </View>
         <View>
           <Text style={styles.CardCurrency}>
-            $ <Text style={styles.CardPrice}>{ItemPrice}</Text>
+          ₹ <Text style={styles.CardPrice}>{ItemPrice}</Text>
           </Text>
         </View>
       </View>
@@ -74,7 +74,7 @@ const OrderItemCard: React.FC<OrderItemCardProps> = ({
               X <Text style={styles.Price}>{data.quantity}</Text>
             </Text>
             <Text style={styles.CardQuantityPriceText}>
-              $ {(data.quantity * data.price).toFixed(2).toString()}
+            ₹ {(data.quantity * data.price).toFixed(2).toString()}
             </Text>
           </View>
         </View>
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   },
   CardCurrency: {
     fontFamily: FONTFAMILY.poppins_semibold,
-    fontSize: FONTSIZE.size_20,
+    fontSize: FONTSIZE.size_14,
     color: COLORS.primaryOrangeHex,
   },
   CardPrice: {
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     fontFamily: FONTFAMILY.poppins_semibold,
-    fontSize: FONTSIZE.size_18,
+    fontSize: FONTSIZE.size_16,
     color: COLORS.primaryOrangeHex,
   },
 });
