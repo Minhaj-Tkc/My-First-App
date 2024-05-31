@@ -28,7 +28,7 @@ const TabNavigator = () => {
         ),
         }}>
        <Tab.Screen name='Home' component={HomeScreen} options={{
-            tabBarIcon: ({focused,color,size}) => (
+            tabBarIcon: ({ focused }) => (
                 <CustomIcon 
                     name="home"
                     size={25}
@@ -39,7 +39,7 @@ const TabNavigator = () => {
             )
        }}></Tab.Screen>
        <Tab.Screen name='Cart' component={CartScreen} options={{
-            tabBarIcon: ({focused,color,size}) => (
+            tabBarIcon: ({ focused }) => (
                 <CustomIcon 
                     name="cart"
                     size={25}
@@ -50,7 +50,7 @@ const TabNavigator = () => {
             )
        }}></Tab.Screen>
        <Tab.Screen name='Favorite' component={FavoritesScreen} options={{
-            tabBarIcon: ({focused,color,size}) => (
+            tabBarIcon: ({ focused }) => (
                 <CustomIcon 
                     name="like"
                     size={25}
@@ -61,7 +61,7 @@ const TabNavigator = () => {
             )
        }}></Tab.Screen>
        <Tab.Screen name='History' component={OrderHistoryScreen} options={{
-            tabBarIcon: ({focused,color,size}) => (
+            tabBarIcon: ({ focused }) => (
                 <CustomIcon 
                     name="bell"
                     size={25}

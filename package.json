@@ -15,6 +15,7 @@
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
+    "axios": "^1.7.2",
     "eslint-plugin-jest": "^28.3.0",
     "immer": "^10.1.1",
     "lottie-react-native": "^6.7.2",
