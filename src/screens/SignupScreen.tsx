@@ -9,10 +9,14 @@ import {
     TouchableWithoutFeedback,
     StyleSheet,
     StatusBar,
+    Alert,
+    ActivityIndicator,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { COLORS, FONTFAMILY } from "../theme/theme";
+import { API_BASE_URL } from '../../config';
 
 interface SignUpScreenProps {
     navigation: any;
@@ -29,6 +33,7 @@ const SignupScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
     const [lastNameError, setLastNameError] = useState<string>('');
     const [password1Error, setPassword1Error] = useState<string>('');
     const [password2Error, setPassword2Error] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
 
     const onSignUp = async () => {
         // Reset previous errors
@@ -39,24 +44,30 @@ const SignupScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
         setPassword2Error('');
 
         // Validation checks
+        let hasError = false;
         if (!username || username.length < 5) {
             setUsernameError('Username must be >= 5 characters');
-            return;
+            hasError = true;
         }
         if (!firstName) {
             setFirstNameError('First Name was not provided');
-            return;
+            hasError = true;
         }
         if (!lastName) {
             setLastNameError('Last Name was not provided');
-            return;
+            hasError = true;
         }
         if (!password1 || password1.length < 8) {
             setPassword1Error('Password is too short');
-            return;
+            hasError = true;
         }
         if (password1 !== password2) {
             setPassword2Error("Passwords don't match");
+            hasError = true;
+        }
+
+        // Stop if validation failed
+        if (hasError) {
             return;
         }
 
@@ -68,14 +79,28 @@ const SignupScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
             password: password1,
         };
 
+        setLoading(true);
+
         try {
             // Make the POST request
-            const response = await axios.post('http://10.0.2.2:8000/api/users/signup/', user);
-            
+            const response = await axios.post(`${API_BASE_URL}/users/create/`, user);
+
             // Handle the response accordingly
             if (response.status === 201) {
                 console.log('User created successfully:', response.data);
-                navigation.navigate('Tab');
+
+                const token = response.data.token;
+                const userId = response.data.id; // Adjusted to match the response structure
+
+                if (token && userId) {
+                    // Save token and userId and navigate to Tab screen
+                    await AsyncStorage.setItem('userToken', token);
+                    await AsyncStorage.setItem('userId', userId.toString());
+                    navigation.navigate('Tab');
+                } else {
+                    Alert.alert('Signup Successful', 'Please log in.');
+                    navigation.navigate('Login');
+                }
             } else {
                 console.log('Error creating user:', response.data);
             }
@@ -91,15 +116,17 @@ const SignupScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
                 if (data.last_name) setLastNameError(data.last_name[0]);
                 if (data.password) setPassword1Error(data.password[0]);
             } else {
-                setUsernameError('An unknown error occurred. Please try again.');
+                Alert.alert('Signup Failed', 'An unknown error occurred. Please try again.');
             }
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor={COLORS.primaryBlackHex} />
-            <KeyboardAvoidingView behavior="height" style={styles.keyboardAvoidingContainer}>
+            <KeyboardAvoidingView behavior="padding" style={styles.keyboardAvoidingContainer}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={styles.innerContainer}>
                         <Text style={styles.title}>Sign Up</Text>
@@ -140,7 +167,11 @@ const SignupScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
                             setError={setPassword2Error}
                             secureTextEntry={true}
                         />
-                        <Button title='Sign Up' onPress={onSignUp} />
+                        {loading ? (
+                            <ActivityIndicator size="large" color={COLORS.primaryBlackHex} />
+                        ) : (
+                            <Button title='Sign Up' onPress={onSignUp} />
+                        )}
                         <Text style={styles.signInText}>
                             Already have an account?
                             <Text

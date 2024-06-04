@@ -14,6 +14,7 @@ import Title from "../components/Title";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { COLORS, FONTFAMILY } from "../theme/theme";
+import { API_BASE_URL } from "../../config";
 
 const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -54,13 +55,9 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
 
         try {
             // Make the POST request
-            // const response = await axios.post('http://10.0.2.2:8000/api/users/login/', user);
-
-            const response = await axios.post('http://192.168.212.226:8000/api/users/login/', {
-                username,
-                password,
-            });
-
+             
+            const response = await axios.post(`${API_BASE_URL}/users/login/`, user);
+            
             // Handle the response accordingly
             if (response.status === 200) {
                 console.log('User logged in successfully:', response.data);

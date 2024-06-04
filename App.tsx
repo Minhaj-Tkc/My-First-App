@@ -6,7 +6,9 @@ import DetailsScreen from './src/screens/DetailsScreen';
 import PaymentScreen from './src/screens/PaymentScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import LoginScreen from './src/screens/LoginScreen';
-import GetStartedScreen from './src/screens/GetStartedScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
+
+
 
 const Stack = createNativeStackNavigator();
 
@@ -15,10 +17,10 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
 
-        <Stack.Screen 
-          name="Login" 
-          component={LoginScreen} 
-          options={{ animation: 'slide_from_bottom' }} 
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ animation: 'slide_from_bottom' }}
         />
 
         <Stack.Screen
@@ -38,11 +40,19 @@ const App = () => {
           component={DetailsScreen}
           options={{ animation: 'slide_from_bottom' }}
         />
+
         <Stack.Screen
           name="Payment"
           component={PaymentScreen}
           options={{ animation: 'slide_from_bottom' }}
         />
+
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{ animation: 'slide_from_bottom' }}
+        />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

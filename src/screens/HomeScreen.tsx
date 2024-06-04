@@ -128,7 +128,7 @@ const HomeScreen = ({navigation}: any) => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.ScrollViewFlex}>
         {/* App Header */}
-        <HeaderBar />
+        <HeaderBar navigation={navigation}/>
 
         <Text style={styles.ScreenTitle}>
           Find the best{'\n'}coffee for you

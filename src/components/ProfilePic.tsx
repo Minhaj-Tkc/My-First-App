@@ -1,13 +1,16 @@
 import React from 'react'
-import { StyleSheet, Image, View } from 'react-native'
+import { StyleSheet, Image, View, TouchableOpacity } from 'react-native'
 import { COLORS, SPACING } from '../theme/theme'
 
 
-const ProfilePic = () => {
+
+const ProfilePic: React.FC<{ navigation: any }> = ({ navigation }) => {
   return (
+    <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
     <View style={styles.ImageContainer}>
       <Image source={require('../assets/app_images/profile.png')} style={styles.Image} />
     </View>
+    </TouchableOpacity>
   )
 }
 

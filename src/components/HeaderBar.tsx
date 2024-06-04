@@ -6,9 +6,10 @@ import ProfilePic from './ProfilePic';
 
 interface HeaderBarPros {
     title?: string;
+    navigation: any;
 }
 
-const HeaderBar: React.FC<HeaderBarPros> = ({title}) => {
+const HeaderBar: React.FC<HeaderBarPros> = ({title, navigation}) => {
   return (
     <View style={styles.HeaderContainer}>
       <GradientBGIcon 
@@ -17,7 +18,7 @@ const HeaderBar: React.FC<HeaderBarPros> = ({title}) => {
         size={FONTSIZE.size_16} 
         />
       <Text style={styles.HeaderText}>{title}</Text>
-      <ProfilePic />
+      <ProfilePic navigation={navigation}/>
     </View>
   )
 }
