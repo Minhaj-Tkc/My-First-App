@@ -8,7 +8,7 @@ const ProfilePic: React.FC<{ navigation: any }> = ({ navigation }) => {
   return (
     <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
     <View style={styles.ImageContainer}>
-      <Image source={require('../assets/app_images/profile.png')} style={styles.Image} />
+      <Image source={require('../assets/app_images/minhaj.png')} style={styles.Image} />
     </View>
     </TouchableOpacity>
   )

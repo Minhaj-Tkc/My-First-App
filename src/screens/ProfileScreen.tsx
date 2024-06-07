@@ -5,53 +5,16 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 library.add(fas);
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { launchImageLibrary } from 'react-native-image-picker';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { API_BASE_URL } from '../../config';
 
 const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [profileImage, setProfileImage] = useState(require('../assets/app_images/minhaj.png'));
-    const [userId, setUserId] = useState<string | null>(null);
-    const [token, setToken] = useState<string | null>(null);
-
-    useEffect(() => {
-        const retrieveUserData = async () => {
-            const storedToken = await AsyncStorage.getItem('userToken');
-            const storedUserId = await AsyncStorage.getItem('userId');
-            setToken(storedToken ?? null);
-            setUserId(storedUserId ?? null);
-        };
-        retrieveUserData();
-    }, []);
 
     const handleChoosePhoto = () => {
         launchImageLibrary({ mediaType: 'photo' }, (response) => {
             if (response.assets) {
                 const selectedImage = response.assets[0];
                 setProfileImage({ uri: selectedImage.uri });
-
-                const formData = new FormData();
-                formData.append('profile_image', {
-                    uri: selectedImage.uri,
-                    name: selectedImage.fileName,
-                    type: selectedImage.type,
-                });
-
-                if (userId && token) {
-                    axios.patch(`${API_BASE_URL}/users/${userId}/`, formData, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                            'Authorization': `Bearer ${token}`
-                        },
-                    }).then((res) => {
-                        console.log(res.data);
-                    }).catch((err) => {
-                        console.error(err);
-                        Alert.alert('Error', 'Failed to update profile image');
-                    });
-                } else {
-                    Alert.alert('Error', 'User not authenticated');
-                }
             } else if (response.errorMessage) {
                 Alert.alert('Error', response.errorMessage);
             }
@@ -76,8 +39,6 @@ const ProfileScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             <Text style={styles.nameText}>Minhaj Tkc</Text>
             <Text style={styles.usernameText}>@minhaj</Text>
             <TouchableOpacity style={styles.logoutButton} onPress={() => {
-                AsyncStorage.removeItem('userToken');
-                AsyncStorage.removeItem('userId');
                 navigation.navigate('Login');
             }}>
                 <FontAwesomeIcon

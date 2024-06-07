@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState } from "react";
 import {
     Keyboard,
@@ -12,11 +11,9 @@ import {
     Alert,
     ActivityIndicator,
 } from "react-native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { COLORS, FONTFAMILY } from "../theme/theme";
-import { API_BASE_URL } from '../../config';
 
 interface SignUpScreenProps {
     navigation: any;
@@ -35,7 +32,7 @@ const SignupScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
     const [password2Error, setPassword2Error] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
 
-    const onSignUp = async () => {
+    const onSignUp = () => {
         // Reset previous errors
         setUsernameError('');
         setFirstNameError('');
@@ -71,56 +68,10 @@ const SignupScreen: React.FC<SignUpScreenProps> = ({ navigation }) => {
             return;
         }
 
-        // Create the user object to send
-        const user = {
-            username,
-            first_name: firstName,
-            last_name: lastName,
-            password: password1,
-        };
-
-        setLoading(true);
-
-        try {
-            // Make the POST request
-            const response = await axios.post(`${API_BASE_URL}/users/create/`, user);
-
-            // Handle the response accordingly
-            if (response.status === 201) {
-                console.log('User created successfully:', response.data);
-
-                const token = response.data.token;
-                const userId = response.data.id; // Adjusted to match the response structure
-
-                if (token && userId) {
-                    // Save token and userId and navigate to Tab screen
-                    await AsyncStorage.setItem('userToken', token);
-                    await AsyncStorage.setItem('userId', userId.toString());
-                    navigation.navigate('Tab');
-                } else {
-                    Alert.alert('Signup Successful', 'Please log in.');
-                    navigation.navigate('Login');
-                }
-            } else {
-                console.log('Error creating user:', response.data);
-            }
-        } catch (error: unknown) {
-            console.error('Error signing up:', error);
-
-            // Assert error type
-            if (axios.isAxiosError(error) && error.response) {
-                const { data } = error.response;
-                console.log('Error response data:', data);
-                if (data.username) setUsernameError(data.username[0]);
-                if (data.first_name) setFirstNameError(data.first_name[0]);
-                if (data.last_name) setLastNameError(data.last_name[0]);
-                if (data.password) setPassword1Error(data.password[0]);
-            } else {
-                Alert.alert('Signup Failed', 'An unknown error occurred. Please try again.');
-            }
-        } finally {
-            setLoading(false);
-        }
+        // Log validation success
+        console.log('Validation passed:', { username, firstName, lastName, password1, password2 });
+        
+        
     };
 
     return (

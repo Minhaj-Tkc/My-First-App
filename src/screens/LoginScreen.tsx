@@ -9,12 +9,10 @@ import {
     StyleSheet,
     StatusBar
 } from "react-native";
-import axios from "axios";
 import Title from "../components/Title";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { COLORS, FONTFAMILY } from "../theme/theme";
-import { API_BASE_URL } from "../../config";
+import { COLORS } from "../theme/theme";
 
 const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -23,9 +21,8 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
 
-
     // Function to handle login
-    const onSignIn = async () => {
+    const onSignIn = () => {
         // Reset previous errors
         setUsernameError('');
         setPasswordError('');
@@ -44,47 +41,14 @@ const LoginScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
             return;
         }
 
+        navigation.navigate('Tab');
+
         // Log validation success
         console.log('Validation passed:', { username, password });
 
-        // Create the user object to send
-        const user = {
-            username,
-            password,
-        };
-
-        try {
-            // Make the POST request
-             
-            const response = await axios.post(`${API_BASE_URL}/users/login/`, user);
-            
-            // Handle the response accordingly
-            if (response.status === 200) {
-                console.log('User logged in successfully:', response.data);
-                navigation.navigate('Tab');
-            } else {
-                console.log('Error logging in:', response.data);
-            }
-        } catch (error: unknown) {
-            console.error('Error logging in:', error);
-
-            // Assert error type
-            if (axios.isAxiosError(error) && error.response) {
-                const { data } = error.response;
-                console.log('Error response data:', data);
-                if (data.non_field_errors) {
-                    setUsernameError(data.non_field_errors[0]);
-                    setPasswordError(data.non_field_errors[0]);
-                } else {
-                    if (data.username) setUsernameError(data.username[0]);
-                    if (data.password) setPasswordError(data.password[0]);
-                }
-            } else {
-                setUsernameError('An unknown error occurred. Please try again.');
-            }
-        }
+        // Normally here you would send the login request to the backend
+        // but this code has been removed as per your request.
     };
-
 
     return (
         <SafeAreaView style={styles.container}>
